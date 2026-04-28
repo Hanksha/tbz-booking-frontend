@@ -55,6 +55,13 @@
 	let playerSuggestions = $state<string[]>([]);
 	let submitting = $state(false);
 	let error = $state<string | null>(null);
+	let scrollBody = $state<HTMLDivElement | null>(null);
+	let canScrollMore = $state(true);
+
+	function onScroll() {
+		if (!scrollBody) return;
+		canScrollMore = scrollBody.scrollTop + scrollBody.clientHeight < scrollBody.scrollHeight - 4;
+	}
 
 	const dateLabel = $derived(
 		date
@@ -224,8 +231,8 @@
 </script>
 
 <Dialog.Root bind:open>
-	<Dialog.Content class="max-w-md">
-		<Dialog.Header>
+	<Dialog.Content class="flex max-h-[90dvh] max-w-md flex-col gap-0 p-0">
+		<Dialog.Header class="shrink-0 border-b px-6 py-4">
 			<Dialog.Title>{isEditMode ? 'Modifier la réservation' : 'Nouvelle réservation'}</Dialog.Title>
 			<Dialog.Description
 				>{isEditMode
@@ -234,10 +241,12 @@
 			>
 		</Dialog.Header>
 
+		<div class="relative flex flex-1 flex-col overflow-hidden">
+		<div bind:this={scrollBody} onscroll={onScroll} class="flex-1 overflow-y-auto px-6 py-4">
 		<!-- Busy day warning -->
 		{#if busyDayWarning}
 			<div
-				class="flex items-start gap-2 rounded-md border border-yellow-500/40 bg-yellow-500/10 px-3 py-2 text-sm text-yellow-700 dark:text-yellow-400"
+				class="mb-4 flex items-start gap-2 rounded-md border border-yellow-500/40 bg-yellow-500/10 px-3 py-2 text-sm text-yellow-700 dark:text-yellow-400"
 			>
 				<AlertTriangle class="mt-0.5 size-4 shrink-0" />
 				<span>Ce jour est très chargé. Des créneaux peuvent être indisponibles.</span>
@@ -385,8 +394,13 @@
 				<p class="text-sm text-destructive">{error}</p>
 			{/if}
 		</FieldSet>
+		</div>
+		{#if canScrollMore}
+			<div class="pointer-events-none absolute bottom-0 left-0 right-0 h-12 bg-linear-to-t from-popover to-transparent"></div>
+		{/if}
+		</div>
 
-		<Dialog.Footer>
+		<Dialog.Footer class="shrink-0 border-t px-6 py-4">
 			<Button variant="outline" onclick={() => (open = false)}>Annuler</Button>
 			<Button onclick={submit} disabled={!isValid || submitting}>
 				{submitting ? (isEditMode ? 'Modification…' : 'Création…') : isEditMode ? 'Modifier' : 'Réserver'}

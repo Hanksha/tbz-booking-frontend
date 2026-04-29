@@ -45,6 +45,29 @@
 	--chart-5: oklch(0.63 0.22 25);
 }
 
+/* ── Schedule-X theme ───────────────────────────────────────────────── */
+html:has(.is-shadcn),
+html:has(.is-shadcn) .is-dark {
+	--sx-color-primary: var(--primary);
+	--sx-color-on-primary: var(--primary-foreground);
+	--sx-color-primary-container: var(--primary);
+	--sx-color-on-primary-container: var(--primary-foreground);
+	--sx-color-background: var(--card);
+	--sx-color-surface: var(--card);
+	--sx-color-on-surface: var(--foreground);
+	--sx-color-on-background: var(--foreground);
+	--sx-color-surface-container: var(--secondary);
+	--sx-color-surface-container-low: var(--card);
+	--sx-color-surface-container-high: var(--accent);
+	--sx-color-surface-dim: var(--muted);
+	--sx-color-outline: var(--border);
+	--sx-color-outline-variant: var(--border);
+	--sx-color-neutral: var(--muted-foreground);
+	--sx-internal-color-text: var(--foreground);
+	--sx-border: 1px solid var(--border);
+	
+}
+
 /* ── Light theme ────────────────────────────────────────────────────── */
 :root.light {
 	--background: oklch(0.97 0.005 275);
@@ -65,6 +88,7 @@
 	--border: oklch(0.88 0.01 275);
 	--input: oklch(0.88 0.01 275);
 	--ring: oklch(0.5 0.22 295);
+
 }
 
 @theme inline {

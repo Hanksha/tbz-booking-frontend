@@ -55,9 +55,16 @@
 		"vitest-browser-svelte": "^2.1.0"
 	},
 	"dependencies": {
+		"@schedule-x/calendar": "^3.7.3",
+		"@schedule-x/event-modal": "^4.5.0",
+		"@schedule-x/events-service": "^4.5.0",
+		"@schedule-x/svelte": "^3.0.0",
+		"@schedule-x/theme-default": "^4.5.0",
+		"@schedule-x/theme-shadcn": "^4.5.0",
 		"chart.js": "^4.5.1",
 		"date-fns": "^4.1.0",
 		"lucide-svelte": "^1.0.1",
-		"svelte-chartjs": "^4.0.1"
+		"svelte-chartjs": "^4.0.1",
+		"temporal-polyfill": "^0.3.0"
 	}
 }

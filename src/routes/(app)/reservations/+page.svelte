@@ -2,19 +2,21 @@
 	import { acceptBooking, cancelBooking, getActiveBookings } from '$lib/api/bookings';
 	import BookingCard from '$lib/components/BookingCard.svelte';
 	import NewBookingDialog from '$lib/components/NewBookingDialog.svelte';
+	import BookingCalendar from '$lib/components/ui/BookingCalendar.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import { SHOP_NAME } from '$lib/config';
 	import { auth } from '$lib/stores/auth.svelte';
 	import type { Booking } from '$lib/types';
-	import { ListFilter, Plus } from '@lucide/svelte';
+	import { ListFilter, Plus, Calendar, List } from '@lucide/svelte';
 	import { parseISO } from 'date-fns';
 	import { onMount } from 'svelte';
 
 	let dialogOpen = $state(false);
 	let hideCancelled = $state(true);
 	let showOnlyOwned = $state(false);
+	let viewType: 'list' | 'calendar' = $state('list');
 
 	let allBookings = $state<Booking[]>([]);
 	let bookings = $derived(
@@ -90,9 +92,9 @@
 
 <div class="mb-6 flex items-center justify-between">
 	<h1 class="text-2xl font-bold">Réservations</h1>
-	<div class="flex items-center gap-5">
+	<div class="flex items-center gap-4">
 		<DropdownMenu.Root>
-			<DropdownMenu.Trigger>
+			<DropdownMenu.Trigger title="Options">
 				{#snippet child({ props })}
 					<Button variant="ghost" size="icon" {...props} aria-label="Menu utilisateur">
 						<ListFilter class="size-5" />
@@ -109,6 +111,24 @@
 				</DropdownMenu.DropdownMenuCheckboxItem>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
+
+		<Button
+			class="gap-2"
+			onclick={() => (viewType = 'list')}
+			variant={viewType === 'list' ? 'default' : 'outline'}
+			title="Liste"
+		>
+			<List class="size-4" />
+		</Button>
+
+		<Button
+			class="gap-2"
+			onclick={() => (viewType = 'calendar')}
+			variant={viewType === 'calendar' ? 'default' : 'outline'}
+			title="Calendrier"
+		>
+			<Calendar class="size-4" />
+		</Button>
 
 		<Button class="gap-2" onclick={() => (dialogOpen = true)}>
 			<Plus class="size-4" />
@@ -142,23 +162,26 @@
 	</div>
 {:else}
 	<div class="flex flex-col gap-8">
-		{#each grouped as { label, bookings: dayBookings } (label)}
-			<section>
-				<h2 class="mb-3 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
-					{label}
-				</h2>
-				<div class="flex flex-col gap-3">
-					{#each dayBookings as booking (booking.id)}
-						<BookingCard
-							{booking}
-							onAccept={handleAccept}
-							onRefuse={load}
-							onCancel={handleCancel}
-							onModify={() => handleModify(booking)}
-						/>
-					{/each}
-				</div>
-			</section>
-		{/each}
+		{#if viewType === 'calendar'}<BookingCalendar {bookings} />
+		{:else}
+			{#each grouped as { label, bookings: dayBookings } (label)}
+				<section>
+					<h2 class="mb-3 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
+						{label}
+					</h2>
+					<div class="flex flex-col gap-3">
+						{#each dayBookings as booking (booking.id)}
+							<BookingCard
+								{booking}
+								onAccept={handleAccept}
+								onRefuse={load}
+								onCancel={handleCancel}
+								onModify={() => handleModify(booking)}
+							/>
+						{/each}
+					</div>
+				</section>
+			{/each}
+		{/if}
 	</div>
 {/if}

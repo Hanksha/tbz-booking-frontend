@@ -24,6 +24,11 @@ export const GAME_LOGO_MAP: Record<string, string> = Object.fromEntries(
 
 export const AVG_GAME_HOURS = 3;
 
+export const CALENDAR_COLORS = {
+	lightColors: { main: '#7c3aed', container: '#ede9fe', onContainer: '#3b0764' },
+	darkColors: { main: '#a78bfa', container: '#4c1d95', onContainer: '#ede9fe' }
+} as const;
+
 /** Machine-readable shop hours per weekday. Index 0 = Monday … 6 = Sunday. null = closed. */
 export const SHOP_HOURS: ({ open: string; close: string } | null)[] = [
 	{ open: '13:00', close: '18:00' }, // Lundi

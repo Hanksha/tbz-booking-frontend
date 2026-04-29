@@ -7,7 +7,6 @@
 	import type { Booking } from '$lib/types';
 	import { getISOTime } from '$lib/utils';
 	import { Check, X } from '@lucide/svelte';
-	import { parseISO } from 'date-fns';
 
 	let {
 		booking,

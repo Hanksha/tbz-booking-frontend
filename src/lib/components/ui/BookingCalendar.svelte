@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { AVG_GAME_HOURS, CALENDAR_COLORS } from '$lib/config';
+	import { getEvents } from '$lib/api/discord';
+	import { AVG_GAME_HOURS, BOOKING_CALENDAR_COLORS, EVENT_CALENDAR_COLORS } from '$lib/config';
 	import { themeStore } from '$lib/stores/theme.svelte';
 	import type { Booking } from '$lib/types';
 	import {
@@ -11,6 +12,7 @@
 	import { createEventsServicePlugin } from '@schedule-x/events-service';
 	import { ScheduleXCalendar } from '@schedule-x/svelte';
 	import '@schedule-x/theme-shadcn/dist/index.css';
+	import { onMount } from 'svelte';
 	import 'temporal-polyfill/global';
 
 	const {
@@ -22,7 +24,7 @@
 	const eventsService = createEventsServicePlugin();
 	const eventModal = createEventModalPlugin();
 
-	let events: CalendarEventExternal[] = $derived(
+	let bookingEvents: CalendarEventExternal[] = $derived(
 		bookings.map((b) => {
 			const date = Temporal.Instant.from(b.dateTime).toZonedDateTimeISO('UTC');
 			return {
@@ -36,6 +38,17 @@
 			};
 		})
 	);
+	let discordEvents: CalendarEventExternal[] = $state([]);
+	async function loadDiscordEvents() {
+		discordEvents = (await getEvents()).map((event) => ({
+			id: event.id,
+			title: event.name,
+			start: event.startTime.toZonedDateTimeISO('Europe/Paris'),
+			end: (event.endTime || event.startTime)?.toZonedDateTimeISO('Europe/Paris'),
+			description: event.description,
+			calendarId: 'event'
+		}));
+	}
 
 	const calendarApp = createCalendar(
 		{
@@ -44,19 +57,22 @@
 			theme: 'shadcn',
 			events: [],
 			calendars: {
-				booking: { colorName: 'booking', ...CALENDAR_COLORS }
+				booking: { colorName: 'booking', ...BOOKING_CALENDAR_COLORS },
+				event: { colorName: 'event', ...EVENT_CALENDAR_COLORS }
 			}
 		},
 		[eventsService, eventModal]
 	);
 
 	$effect(() => {
-		eventsService.set(events);
+		eventsService.set([...bookingEvents, ...discordEvents]);
 	});
 
 	$effect(() => {
 		calendarApp.setTheme(themeStore.isDark ? 'dark' : 'light');
 	});
+
+	onMount(loadDiscordEvents);
 </script>
 
 <ScheduleXCalendar {calendarApp} />

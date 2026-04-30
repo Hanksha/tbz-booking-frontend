@@ -33,3 +33,12 @@ export interface WeekDayBookingCount {
 	dayOfWeek: string;
 	bookingCount: number;
 }
+
+export interface DiscordEvent {
+	id: string;
+	name: string;
+	description?: string;
+	startTime: Temporal.Instant;
+	endTime?: Temporal.Instant;
+	status: 'scheduled' | 'active' | 'completed' | 'canceled';
+}

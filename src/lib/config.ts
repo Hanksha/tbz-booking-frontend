@@ -24,9 +24,14 @@ export const GAME_LOGO_MAP: Record<string, string> = Object.fromEntries(
 
 export const AVG_GAME_HOURS = 3;
 
-export const CALENDAR_COLORS = {
+export const BOOKING_CALENDAR_COLORS = {
 	lightColors: { main: '#7c3aed', container: '#ede9fe', onContainer: '#3b0764' },
 	darkColors: { main: '#a78bfa', container: '#4c1d95', onContainer: '#ede9fe' }
+} as const;
+
+export const EVENT_CALENDAR_COLORS = {
+	lightColors: { main: '#4f46e5', container: '#e0e7ff', onContainer: '#1e1b4b' },
+	darkColors: { main: '#818cf8', container: '#1e1b4b', onContainer: '#e0e7ff' }
 } as const;
 
 /** Machine-readable shop hours per weekday. Index 0 = Monday … 6 = Sunday. null = closed. */
@@ -37,7 +42,7 @@ export const SHOP_HOURS: ({ open: string; close: string } | null)[] = [
 	{ open: '13:00', close: '18:30' }, // Jeudi
 	{ open: '10:00', close: '23:00' }, // Vendredi
 	{ open: '10:00', close: '18:00' }, // Samedi
-	null                               // Dimanche
+	null // Dimanche
 ];
 
 export const OPENING_HOURS = [
@@ -52,4 +57,4 @@ export const OPENING_HOURS = [
 
 export const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=${import.meta.env.VITE_DISCORD_CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(import.meta.env.VITE_DISCORD_REDIRECT_URI ?? '')}&scope=identify+guilds.members.read`;
 
-export const SHOP_NAME = 'Tableraze Montpellier'
+export const SHOP_NAME = 'Tableraze Montpellier';

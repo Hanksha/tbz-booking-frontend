@@ -1,8 +1,9 @@
 import type { Booking } from '$lib/types';
 import { apiFetch } from './client';
 
-export function getActiveBookings(): Promise<Booking[]> {
-	return apiFetch<Booking[]>('/api/v1/bookings');
+export async function getActiveBookings(): Promise<Booking[]> {
+	const bookings = await apiFetch<Booking[]>('/api/v1/bookings');
+	return bookings || [];
 }
 
 export function getMyBookings(username: string): Promise<Booking[]> {

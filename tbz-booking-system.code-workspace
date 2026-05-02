@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "../tbz-booking-system-backend"
+			"path": "../tbz-booking-backend"
 		}
 	],
 	"settings": {

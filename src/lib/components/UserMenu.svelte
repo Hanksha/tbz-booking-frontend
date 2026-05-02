@@ -24,7 +24,7 @@
 
 	<DropdownMenu.Content align="end" class="w-52">
 		<div class="px-3 py-2">
-			<p class="text-sm font-medium truncate">{auth.user?.username ?? '…'}</p>
+			<p class="truncate text-sm font-medium">{auth.user?.username ?? '…'}</p>
 		</div>
 
 		<Separator />

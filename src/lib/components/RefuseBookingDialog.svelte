@@ -54,7 +54,7 @@
 			<Field>
 				<FieldLabel for="reason">Raison</FieldLabel>
 				<Select.Root type="single" bind:value={reason}>
-					<Select.Trigger class="w-full">
+					<Select.Trigger id="reason" class="w-full">
 						{reason || 'Sélectionner une raison...'}
 					</Select.Trigger>
 					<Select.Content>
@@ -84,7 +84,7 @@
 
 		<Dialog.Footer>
 			<Button variant="outline" onclick={() => (open = false)}>Annuler</Button>
-			<Button onclick={submit} disabled={!isValid || submitting}>
+			<Button onclick={submit} disabled={!isValid || submitting} data-testid='dlg-btn-refuse'>
 				{submitting ? 'Chargement...' : 'Refuser'}
 			</Button>
 		</Dialog.Footer>

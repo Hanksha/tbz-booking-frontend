@@ -18,7 +18,7 @@ export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & { ref?:
  * @param dateTime The ISO date string.
  * @returns The time in UTC format.
  */
-export function getISOTime(dateTime: string) {
+export function getISOTime(dateTime: string): string {
 	const d = parseISO(dateTime);
 	return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
 }

@@ -1,0 +1,46 @@
+name: Test, Build and Publish Docker Image
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test -- --coverage
+
+  deploy-render:
+    name: Deploy to Render
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger Render deployment
+        run: |
+          curl --request POST \
+            --url https://api.render.com/v1/services/srv-d7nsvj1o3t8c73eu7jog/deploys \
+            --header 'accept: application/json' \
+            --header 'content-type: application/json' \
+            --header "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            --data '{
+              "deployMode": "deploy_only"
+            }'

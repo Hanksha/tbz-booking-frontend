@@ -4,8 +4,8 @@
 	import { navLinks } from '$lib/nav';
 </script>
 
-<nav class="fixed bottom-0 left-0 right-0 z-50 flex border-t border-border bg-card md:hidden">
-	{#each navLinks as link}
+<nav class="fixed right-0 bottom-0 left-0 z-50 flex border-t border-border bg-card md:hidden">
+	{#each navLinks as link (link.href)}
 		<a
 			href={link.href}
 			class={cn(

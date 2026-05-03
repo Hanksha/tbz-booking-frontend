@@ -8,7 +8,6 @@
 	import { auth } from '$lib/stores/auth.svelte';
 	import { themeStore } from '$lib/stores/theme.svelte';
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
 	import { Spinner } from '$lib/components/ui/spinner';
 
 	let { children } = $props();
@@ -32,7 +31,6 @@
 	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
 {#if ready}
 	{@render children()}
 {:else}

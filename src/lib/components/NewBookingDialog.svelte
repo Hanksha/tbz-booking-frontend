@@ -258,7 +258,7 @@
 			<Field>
 				<FieldLabel for="game">Jeu *</FieldLabel>
 				<Select.Root type="single" bind:value={game}>
-					<Select.Trigger class="w-full">
+					<Select.Trigger id="game" class="w-full">
 						{game || 'Sélectionner un jeu'}
 					</Select.Trigger>
 					<Select.Content>
@@ -271,9 +271,9 @@
 
 			<!-- Date -->
 			<Field>
-				<FieldLabel>Date *</FieldLabel>
+				<FieldLabel for="date">Date *</FieldLabel>
 				<Popover.Root>
-					<Popover.Trigger>
+					<Popover.Trigger id="date">
 						{#snippet child({ props })}
 							<Button variant="outline" class="w-full justify-start gap-2 font-normal" {...props}>
 								<CalendarIcon class="size-4 text-muted-foreground" />
@@ -324,7 +324,7 @@
 
 			<!-- Players -->
 			<Field>
-				<FieldLabel>Joueurs supplémentaires</FieldLabel>
+				<FieldLabel for="players">Joueurs supplémentaires</FieldLabel>
 				{#if players.length > 0}
 					<div class="mb-1 flex flex-wrap gap-1">
 						{#each players as player (player)}
@@ -347,6 +347,7 @@
 				<div class="relative">
 					<Input
 						type="text"
+						id="players"
 						placeholder="Rechercher un joueur…"
 						value={playerQuery}
 						oninput={onPlayerInput}

@@ -81,35 +81,35 @@
 			<p class="truncate text-xs text-muted-foreground italic">{booking.description}</p>
 		{/if}
 
-		{#if booking.status === 'pending'}
-			<div class="mt-2 flex flex-wrap gap-2">
-				{#if isAdmin}
-					{#if onAccept !== undefined}
-						<Button size="sm" onclick={() => onAccept?.(booking.id)} class="gap-1.5">
-							<Check class="size-3.5" /> Accepter
-						</Button>
-					{/if}
-					{#if onRefuse !== undefined}
-						<Button
-							size="sm"
-							variant="destructive"
-							onclick={() => (refuseDialogOpen = true)}
-							class="gap-1.5"
-						>
-							<X class="size-3.5" /> Refuser
-						</Button>
-					{/if}
+		<div class="mt-2 flex flex-wrap gap-2">
+			{#if isAdmin && booking.status === 'pending'}
+				{#if onAccept !== undefined}
+					<Button size="sm" onclick={() => onAccept?.(booking.id)} class="gap-1.5">
+						<Check class="size-3.5" /> Accepter
+					</Button>
 				{/if}
-				{#if isOwner}
-					<Button size="sm" variant="secondary" onclick={() => onModify?.(booking.id)}>
+				{#if onRefuse !== undefined}
+					<Button
+						size="sm"
+						variant="destructive"
+						onclick={() => (refuseDialogOpen = true)}
+						class="gap-1.5"
+					>
+						<X class="size-3.5" /> Refuser
+					</Button>
+				{/if}
+			{/if}
+			{#if isOwner}
+				{#if booking.status === 'pending' && onModify !== undefined}
+					<Button size="sm" variant="secondary" onclick={() => onModify(booking.id)}>
 						Modifier
 					</Button>
-					<Button size="sm" variant="outline" onclick={() => onCancel?.(booking.id)}>
-						Annuler
-					</Button>
 				{/if}
-			</div>
-		{/if}
+				{#if booking.status !== 'canceled' && booking.status !== 'refused' && onCancel !== undefined}
+					<Button size="sm" variant="outline" onclick={() => onCancel(booking.id)}>Annuler</Button>
+				{/if}
+			{/if}
+		</div>
 	</div>
 
 	<RefuseBookingDialog

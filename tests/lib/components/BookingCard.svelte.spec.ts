@@ -123,13 +123,53 @@ describe('BookingCard', () => {
 			await expect.element(page.getByText('Modifier')).not.toBeInTheDocument();
 		});
 
-		test('renders modify button if onModify prop is present and user is the owner of the booking', async () => {
+		test('renders modify and cancel button if onModify prop is present and user is the owner of the booking', async () => {
 			render(BookingCard, {
 				booking: { ...booking, userId: '1', username: 'user', status: 'pending' },
-				onModify: vi.fn()
+				onModify: vi.fn(),
+				onCancel: vi.fn()
 			});
 
 			await expect.element(page.getByText('Modifier')).toBeInTheDocument();
+			await expect.element(page.getByText('Annuler')).toBeInTheDocument();
+			await expect.element(page.getByText('Accepter')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Refuser')).not.toBeInTheDocument();
+		});
+
+		test('does not render cancel and modify button if booking is already canceled', async () => {
+			render(BookingCard, {
+				booking: { ...booking, userId: '1', username: 'user', status: 'canceled' },
+				onCancel: vi.fn(),
+				onModify: vi.fn()
+			});
+
+			await expect.element(page.getByText('Modifier')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Annuler')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Accepter')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Refuser')).not.toBeInTheDocument();
+		});
+
+		test('does not render cancel and modify button if booking is already refused', async () => {
+			render(BookingCard, {
+				booking: { ...booking, userId: '1', username: 'user', status: 'refused' },
+				onCancel: vi.fn(),
+				onModify: vi.fn()
+			});
+
+			await expect.element(page.getByText('Modifier')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Annuler')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Accepter')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Refuser')).not.toBeInTheDocument();
+		});
+
+		test('does not render modify button if booking is already accepted', async () => {
+			render(BookingCard, {
+				booking: { ...booking, userId: '1', username: 'user', status: 'accepted' },
+				onModify: vi.fn()
+			});
+
+			await expect.element(page.getByText('Modifier')).not.toBeInTheDocument();
+			await expect.element(page.getByText('Annuler')).not.toBeInTheDocument();
 			await expect.element(page.getByText('Accepter')).not.toBeInTheDocument();
 			await expect.element(page.getByText('Refuser')).not.toBeInTheDocument();
 		});

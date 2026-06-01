@@ -15,7 +15,8 @@ export const GAMES: { name: string; logo: string }[] = [
 	{ name: 'Star Wars Legion', logo: '/swl_logo.png' },
 	{ name: 'Star Wars Shatterpoint', logo: '/sws_logo.png' },
 	{ name: 'Warhammer Underworlds', logo: '/whu_logo.png' },
-	{ name: 'Warhammer The Old World', logo: '/wtow_logo.png' }
+	{ name: 'Warhammer The Old World', logo: '/wtow_logo.png' },
+	{ name: 'Trench Crusade', logo: '/trench_crusade_logo.png' }
 ];
 
 export const GAME_LOGO_MAP: Record<string, string> = Object.fromEntries(

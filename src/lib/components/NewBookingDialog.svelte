@@ -262,7 +262,7 @@
 						{game || 'Sélectionner un jeu'}
 					</Select.Trigger>
 					<Select.Content>
-						{#each GAMES as g (g.name)}
+						{#each GAMES.sort((a, b) => a.name.localeCompare(b.name)) as g (g.name)}
 							<Select.Item value={g.name}>{g.name}</Select.Item>
 						{/each}
 					</Select.Content>

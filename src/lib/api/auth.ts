@@ -1,11 +1,12 @@
 import { API_BASE_URL } from '$lib/config';
 import type { DiscordUser, OAuthToken } from '$lib/types';
-import { apiFetch } from './client';
+import { apiFetch, ApiError } from './client';
 
 export async function exchangeCode(code: string): Promise<OAuthToken> {
 	const response = await fetch(`${API_BASE_URL}/api/discord/oauth/callback?code=${encodeURIComponent(code)}`);
 	if (!response.ok) {
-		throw new Error('Échec de l\'authentification Discord');
+		const body = await response.json().catch(() => ({}));
+		throw new ApiError(response.status, body.error ?? "Échec de l'authentification Discord");
 	}
 	return response.json();
 }

@@ -1,4 +1,5 @@
 import { getUserInfo } from '$lib/api/auth';
+import { ApiError } from '$lib/api/client';
 import type { DiscordUser } from '$lib/types';
 
 interface AuthState {
@@ -26,9 +27,13 @@ function createAuthStore() {
 			state.token = token;
 			try {
 				state.user = await getUserInfo();
-			} catch {
-				state.token = null;
-				localStorage.removeItem('tbz_token');
+			} catch (e) {
+				// Only clear the token on a real auth failure; transient errors (e.g. rate
+				// limiting) should let the user retry with the same token later.
+				if (!(e instanceof ApiError) || e.status === 401) {
+					state.token = null;
+					localStorage.removeItem('tbz_token');
+				}
 			}
 		},
 		setToken(token: string) {

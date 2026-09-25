@@ -40,7 +40,7 @@ export const EVENT_CALENDAR_COLORS = {
 export const SHOP_HOURS: ({ open: string; close: string } | null)[] = [
 	{ open: '13:00', close: '18:00' }, // Lundi
 	{ open: '10:00', close: '18:30' }, // Mardi
-	{ open: '10:00', close: '18:30' }, // Mercredi
+	{ open: '10:00', close: '19:00' }, // Mercredi
 	{ open: '13:00', close: '18:30' }, // Jeudi
 	{ open: '10:00', close: '23:00' }, // Vendredi
 	{ open: '10:00', close: '18:00' }, // Samedi
@@ -50,7 +50,7 @@ export const SHOP_HOURS: ({ open: string; close: string } | null)[] = [
 export const OPENING_HOURS = [
 	{ day: 'Lundi', hours: '13h – 18h' },
 	{ day: 'Mardi', hours: '10h – 18h30 Non Stop' },
-	{ day: 'Mercredi', hours: '10h – 18h30 Non Stop' },
+	{ day: 'Mercredi', hours: '10h – 19h Non Stop' },
 	{ day: 'Jeudi', hours: '13h – 18h30' },
 	{ day: 'Vendredi', hours: '10h – 23h Non Stop' },
 	{ day: 'Samedi', hours: '10h – 18h Non Stop' },
